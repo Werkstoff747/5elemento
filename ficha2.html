@@ -149,7 +149,6 @@
             letter-spacing: 1px;
         }
 
-        /* CABECERA ESTILO IMAGEN 1 */
         .sheet-top-grid {
             display: grid;
             grid-template-columns: 280px 1fr;
@@ -226,7 +225,6 @@
             word-break: break-word;
         }
 
-        /* ESTADÍSTICAS VITALES (SOLO HUMANIDAD Y POTENCIA ARRIBA) */
         .stats-pools-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -247,7 +245,6 @@
             color: var(--accent-gold);
         }
 
-        /* TRACKERS INTEGRADOS DEBAJO DE ATRIBUTOS (ESTILO OFICIAL V5) */
         .trackers-under-attr {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -287,7 +284,6 @@
             border-color: var(--accent-crimson);
         }
 
-        /* 3 COLUMNAS PARA ATRIBUTOS Y HABILIDADES */
         .three-columns-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -339,7 +335,6 @@
             margin-top: 10px;
         }
 
-        /* BOTONES FLOTANTES */
         .floating-btn-container {
             position: fixed; bottom: 25px; right: 25px;
             display: flex; flex-direction: column; gap: 12px; z-index: 9999;
@@ -396,7 +391,6 @@
 
     <div id="sheetContent" style="display: none;">
         
-        <!-- CABECERA ESTILO IMAGEN 1 -->
         <div class="sheet-section">
             <div class="sheet-top-grid" style="margin-bottom: 0;">
                 <div class="portrait-container">
@@ -427,7 +421,6 @@
             </div>
         </div>
 
-        <!-- ESTADÍSTICAS VITALES (HUMANIDAD Y POTENCIA) -->
         <div class="sheet-section">
             <div class="section-title"><i class="fa-solid fa-heart-pulse"></i> Estadísticas Vitales</div>
             <div class="stats-pools-grid">
@@ -436,7 +429,6 @@
             </div>
         </div>
 
-        <!-- ATRIBUTOS CON SALUD Y VOLUNTAD DEBAJO -->
         <div class="sheet-section">
             <div class="section-title"><i class="fa-solid fa-chart-bar"></i> Atributos</div>
             <div class="three-columns-grid">
@@ -454,7 +446,6 @@
                 </div>
             </div>
 
-            <!-- SALUD Y FUERZA DE VOLUNTAD INTEGRADOS DEBAJO DE LOS ATRIBUTOS -->
             <div class="trackers-under-attr">
                 <div class="tracker-item">
                     <div class="tracker-label">Salud</div>
@@ -467,7 +458,6 @@
             </div>
         </div>
 
-        <!-- HABILIDADES -->
         <div class="sheet-section">
             <div class="section-title"><i class="fa-solid fa-list-check"></i> Habilidades</div>
             <div class="three-columns-grid">
@@ -486,7 +476,6 @@
             </div>
         </div>
 
-        <!-- DISCIPLINAS Y VENTAJAS -->
         <div class="sheet-section">
             <div class="section-title"><i class="fa-solid fa-bolt"></i> Disciplinas y Trasfondos</div>
             <div style="margin-bottom: 12px;">
@@ -499,7 +488,6 @@
             </div>
         </div>
 
-        <!-- SECRETOS -->
         <div class="sheet-section">
             <div class="section-title"><i class="fa-solid fa-user-secret"></i> Registros Ocultos</div>
             <div>
@@ -514,14 +502,14 @@
     </footer>
 </div>
 
-<!-- MENÚ FLOTANTE -->
 <div class="floating-btn-container">
     <a href="https://werkstoff747.github.io/vtm-consulta/chicago/" class="floating-action-btn" title="Ir al Censo de Chicago"><i class="fa-solid fa-house"></i></a>
     <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()" title="Subir"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 
 <script>
-    const SHEET_FICHA_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShpjd_tcI1PIo1fdPGcBrsvkGw9NHvKv6YkDlMF7NaU_2F8W18YsqaTkGV8yPO2lPIZZVjKet_haOd/pub?gid=530703739&single=true&output=csv&_t=' + Date.now();
+    // URL actualizada con el nuevo link de FICHAS y anti-caché robusto
+    const SHEET_FICHA_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQEiRaZOHuDrmYpYvtaDNpfqAXo7gxCumyLA34jcG5Co2uqY-xmDJJs7IqRxMAh9-_7WhCkrUXFrBQN/pub?gid=530703739&single=true&output=csv&_t=' + Date.now();
 
     const ATTR_LIST = {
         fisicos: ['Atributo_Fuerza', 'Atributo_Destreza', 'Atributo_Resistencia'],
