@@ -356,8 +356,8 @@
 </div>
 
 <script>
-    // URL de tu hoja oficial publicada en Google Sheets con anti-caché robusto
-    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShpjd_tcI1PIo1fdPGcBrsvkGw9NHvKv6YkDlMF7NaU_2F8W18YsqaTkGV8yPO2lPIZZVjKet_haOd/pub?gid=530703739&single=true&output=csv&_t=' + Date.now();
+    // URL de la pestaña de fichas en Google Sheets (gid=530703739) con anti-caché
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQEiRaZOHuDrmYpYvtaDNpfqAXo7gxCumyLA34jcG5Co2uqY-xmDJJs7IqRxMAh9-_7WhCkrUXFrBQN/pub?gid=530703739&single=true&output=csv&_t=' + Date.now();
 
     window.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -375,10 +375,8 @@
             complete: function(results) {
                 document.getElementById('loading').style.display = 'none';
                 
-                // Limpieza numérica estricta para evitar desfases de cadenas
                 const idBuscado = parseInt(targetId, 10);
 
-                // Buscamos la fila cuyo ID coincida exactamente de forma numérica
                 const v = results.data.find(row => {
                     if (!row["ID"]) return false;
                     const idFila = parseInt(String(row["ID"]).trim(), 10);
@@ -408,7 +406,6 @@
         const nombre = v["Nombre_Personaje"] ? v["Nombre_Personaje"].trim() : "Desconocido";
         const clan = v["Clan"] ? v["Clan"].trim() : "Desconocido";
         
-        // Datos básicos
         document.getElementById('fName').textContent = nombre;
         document.getElementById('fClan').textContent = clan;
         document.getElementById('fApodo').textContent = v["Apodo_o_Rango"] || "-";
@@ -419,13 +416,11 @@
         document.getElementById('fConvicciones').textContent = v["Convicciones"] || "-";
         document.getElementById('fPiedras').textContent = v["Piedras_de_Toque"] || "-";
 
-        // Estadísticas vitales
         document.getElementById('fHumanidad').textContent = v["Humanidad"] || "-";
         document.getElementById('fPotencia').textContent = v["Potencia_de_Sangre"] || "-";
         document.getElementById('fSalud').textContent = v["Salud"] || "-";
         document.getElementById('fVoluntad').textContent = v["Fuerza_de_Voluntad"] || "-";
 
-        // Carga de imagen: usa la columna o recurre al nombre formateado con espacios reemplazados por guiones bajos
         let nombreImagen = v["Archivo de Imagen"] ? String(v["Archivo de Imagen"]).trim() : "";
         if (!nombreImagen || nombreImagen === "") {
             const nombreLimpioImg = nombre.replace(/["']/g, "").trim().replace(/\s+/g, "_");
@@ -433,21 +428,18 @@
         }
 
         const imgElement = document.getElementById('fImage');
-        // Anti-caché con timestamp para forzar actualización de imagen
         imgElement.src = `./retratos/${nombreImagen}?t=` + new Date().getTime();
         imgElement.onerror = function() {
             this.onerror = null;
             this.src = 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=500&q=80';
         };
 
-        // Mapeo dinámico de Atributos
         const attrKeys = ["Fuerza", "Destreza", "Resistencia", "Carisma", "Manipulacion", "Compostura", "Inteligencia", "Astucia", "Resolucion"];
         attrKeys.forEach(key => {
             const el = document.getElementById(`attr_${key}`);
             if (el) el.textContent = v[`Atributo_${key}`] || "0";
         });
 
-        // Mapeo dinámico de Habilidades
         const habKeys = [
             "Armas_de_Fuego", "Artesania", "Atletismo", "Conducir", "Latrocinio", "Pelea", "Pelea_con_Armas", "Sigilo", "Supervivencia",
             "Callejeo", "Etiqueta", "Interpretacion", "Intimidacion", "Liderazgo", "Perspicacia", "Persuasion", "Subterfugio", "Trato_con_Animales",
@@ -458,7 +450,6 @@
             if (el) el.textContent = v[`Hab_${key}`] || "0";
         });
 
-        // Extras y Secretos
         document.getElementById('fDisciplinas').textContent = v["Disciplinas"] || "Ninguna registrada.";
         document.getElementById('fVentajas').textContent = v["Ventajas_y_Defectos"] || "Ninguna registrada.";
         document.getElementById('fSecretos').textContent = v["Secretos"] || "No hay secretos registrados.";
