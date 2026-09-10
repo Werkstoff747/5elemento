@@ -215,6 +215,11 @@
     <header>
         <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Volver al Censo</a>
         <h1 class="cabecera-principal">Ficha Técnica Oficial V5</h1>
+        
+        <!-- BOTÓN SUPERIOR PARA CAMBIAR A FICHA 2 (V2 IMPRIMIBLE) -->
+        <a href="ficha2.html" id="switchFichaBtn" class="back-btn" style="background: var(--tag-bg); border: 1px solid var(--accent-gold); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Versión 2 (Imprimible)
+        </a>
     </header>
 
     <div id="loading">Consultando Archivos de la Camarilla...</div>
@@ -351,17 +356,24 @@
 
 <!-- MENÚ FLOTANTE -->
 <div class="floating-btn-container">
+    <a href="index.html" class="floating-action-btn" title="Volver al Censo"><i class="fa-solid fa-arrow-left"></i></a>
     <a href="https://werkstoff747.github.io/vtm-consulta/chicago/" class="floating-action-btn" title="Ir al Censo de Chicago"><i class="fa-solid fa-house"></i></a>
     <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()" title="Subir"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 
 <script>
-    // URL de la pestaña de fichas en Google Sheets (gid=530703739) con anti-caché
-    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQEiRaZOHuDrmYpYvtaDNpfqAXo7gxCumyLA34jcG5Co2uqY-xmDJJs7IqRxMAh9-_7WhCkrUXFrBQN/pub?gid=530703739&single=true&output=csv&_t=' + Date.now();
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShpjd_tcI1PIo1fdPGcBrsvkGw9NHvKv6YkDlMF7NaU_2F8W18YsqaTkGV8yPO2lPIZZVjKet_haOd/pub?gid=530703739&single=true&output=csv&_t=' + Date.now();
 
     window.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const targetId = urlParams.get('id');
+
+        if (targetId) {
+            const switchBtn = document.getElementById('switchFichaBtn');
+            if (switchBtn) {
+                switchBtn.href = `ficha2.html?id=${targetId}`;
+            }
+        }
 
         if (!targetId) {
             mostrarError("No se ha especificado ningún ID de Vástago.");
@@ -376,7 +388,6 @@
                 document.getElementById('loading').style.display = 'none';
                 
                 const idBuscado = parseInt(targetId, 10);
-
                 const v = results.data.find(row => {
                     if (!row["ID"]) return false;
                     const idFila = parseInt(String(row["ID"]).trim(), 10);

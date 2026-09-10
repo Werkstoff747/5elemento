@@ -131,7 +131,25 @@
             text-transform: uppercase;
         }
 
-        /* BARRA DE CONTROLES (3/4 Y BOTONES) */
+        /* AVISO DE MODO JUGADOR */
+        .player-mode-banner {
+            background: rgba(197, 160, 89, 0.08);
+            border: 1px dashed rgba(197, 160, 89, 0.3);
+            color: var(--text-muted);
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.88rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .player-mode-banner i { color: var(--accent-gold); }
+        body.narrator-mode .player-mode-banner { display: none; }
+
+        /* BARRA DE CONTROLES */
         .controls {
             background: var(--card-bg);
             padding: 15px 20px;
@@ -141,16 +159,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .controls-main-group {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex: 3;
             min-width: 280px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .controls-actions-group {
@@ -159,10 +178,11 @@
             flex: 1;
             min-width: 220px;
             justify-content: flex-end;
+            flex-wrap: wrap;
         }
 
-        .search-box { flex: 2; min-width: 180px; }
-        .filter-box { flex: 1; min-width: 140px; }
+        .search-box { flex: 2; min-width: 160px; }
+        .filter-box { flex: 1; min-width: 110px; }
 
         .search-box input, .filter-box select {
             width: 100%;
@@ -171,7 +191,7 @@
             border: 1px solid var(--card-border);
             border-radius: 6px;
             color: var(--text-main);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             outline: none;
         }
 
@@ -194,6 +214,13 @@
 
         .action-control-btn:hover {
             background: rgba(197, 160, 89, 0.15);
+            border-color: var(--accent-gold);
+        }
+
+        #sortIdBtn { display: none; }
+        body.narrator-mode #sortIdBtn { display: flex; }
+        #sortIdBtn.active-sort {
+            background: rgba(197, 160, 89, 0.25);
             border-color: var(--accent-gold);
         }
 
@@ -237,6 +264,12 @@
             border-color: rgba(201, 42, 42, 0.4);
         }
 
+        /* ELEMENTOS EXCLUSIVOS DE NARRADOR EN TARJETA */
+        .id-badge, .estatus-badge, .narrator-source-badge { display: none; }
+        body.narrator-mode .id-badge { display: block; }
+        body.narrator-mode .estatus-badge { display: block; }
+        body.narrator-mode .narrator-source-badge { display: block; }
+
         .id-badge {
             position: absolute;
             top: 10px; left: 12px;
@@ -251,7 +284,24 @@
             z-index: 10;
         }
 
-        /* ETIQUETAS DE ESTATUS */
+        .narrator-source-badge {
+            position: absolute;
+            bottom: 10px; left: 12px;
+            background: rgba(15, 15, 18, 0.85);
+            color: var(--text-muted);
+            border: 1px solid var(--card-border);
+            padding: 0.15rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            border-radius: 4px;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+        .source-cloaca {
+            color: #d29922;
+            border-color: rgba(210, 153, 34, 0.4);
+        }
+
         .estatus-badge {
             position: absolute;
             top: 10px; right: 12px;
@@ -282,12 +332,14 @@
             height: 280px;
             background-color: #000;
             overflow: hidden;
+            position: relative;
         }
 
         .card-img-container img {
             width: 100%; height: 100%;
             object-fit: cover; object-position: top;
             transition: transform 0.4s ease;
+            cursor: pointer;
         }
 
         .card:hover .card-img-container img { transform: scale(1.04); }
@@ -358,19 +410,21 @@
 
         .narrator-only { display: none !important; }
         body.narrator-mode .narrator-only { display: flex !important; }
+        
+        #sourceCheckboxesContainer { display: none !important; }
+        body.narrator-mode #sourceCheckboxesContainer { display: flex !important; }
 
         .card-notes {
             font-size: 0.85rem;
-            color: var(--accent-gold);
+            color: var(--text-main);
             font-style: italic;
             padding: 8px 10px;
             background-color: rgba(139, 0, 0, 0.08);
             border-radius: 6px;
             border: 1px solid rgba(139, 0, 0, 0.3);
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .badge {
@@ -431,6 +485,12 @@
         .modal-btn { padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; border: none; }
         .modal-btn-confirm { background: var(--accent-red); color: #fff; border: 1px solid var(--accent-crimson); }
         .modal-btn-cancel { background: var(--tag-bg); color: var(--text-muted); border: 1px solid var(--card-border); }
+
+        /* MODAL AMPLIAR IMAGEN */
+        #imageModal {
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(4px);
+        }
 
         /* ESTILOS DEL ORGANIGRAMA PIRAMIDAL DE TEXTO */
         .modal-large { max-width: 700px; text-align: left; max-height: 85vh; overflow-y: auto; }
@@ -504,7 +564,7 @@
         .markdown-viewer h4 { color: var(--accent-gold); font-family: 'Cinzel', serif; margin: 12px 0 6px 0; }
         .markdown-viewer ul { padding-left: 20px; margin-bottom: 10px; }
 
-        footer { text-align: center; padding: 30px 20px; border-top: 1px solid var(--card-border); margin-top: 50px; }
+        <footer> { text-align: center; padding: 30px 20px; border-top: 1px solid var(--card-border); margin-top: 50px; }
     </style>
 </head>
 <body>
@@ -520,23 +580,39 @@
         </div>
     </header>
 
-    <!-- BARRA DE CONTROLES REDUCIDA -->
+    <!-- AVISO DE MODO JUGADOR -->
+    <div class="player-mode-banner">
+        <i class="fa-solid fa-circle-info"></i> Estás visualizando el censo en <strong>Modo Jugador</strong>. Para acceder a los secretos y herramientas de control, pulsa el icono de la llave <i class="fa-solid fa-key" style="color: var(--accent-gold);"></i> en el menú flotante inferior derecho.
+    </div>
+
+    <!-- BARRA DE CONTROLES -->
     <div class="controls">
         <div class="controls-main-group">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Buscar por ID (#), nombre, clan, ocupación..." oninput="applyFilters()">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre, alias, clan..." oninput="applyFilters()">
             </div>
             <div class="filter-box">
                 <select id="factionFilter" onchange="applyFilters()">
-                    <option value="">Todas las Facciones</option>
+                    <option value="">Facciones</option>
                     <option value="Camarilla">Camarilla</option>
                     <option value="Anarquistas">Anarquistas</option>
                     <option value="Independiente">Independiente</option>
                     <option value="Hecata">Hecata</option>
+                    <option value="Autarcas">Autarcas</option>
                 </select>
+            </div>
+            <!-- CHECKBOXES PERSISTENTES DE FUENTES (EXCLUSIVO MODO NARRADOR) -->
+            <div class="filter-box" id="sourceCheckboxesContainer" style="display: none; align-items: center; gap: 12px; font-family: 'Cinzel', serif; font-size: 0.85rem; color: var(--accent-gold);">
+                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" id="checkCN" checked onchange="saveSourceFiltersAndApply()"> CN
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" id="checkCC" checked onchange="saveSourceFiltersAndApply()"> CC
+                </label>
             </div>
         </div>
         <div class="controls-actions-group">
+            <button class="action-control-btn" id="sortIdBtn" onclick="toggleSortById()" title="Alternar orden por ID numérico"><i class="fa-solid fa-arrow-down-1-9"></i> ID</button>
             <button class="action-control-btn" onclick="abrirModalPoder()"><i class="fa-solid fa-sitemap"></i> Poder</button>
             <button class="action-control-btn" onclick="abrirModalReadme()"><i class="fa-solid fa-book-open"></i> Guía</button>
         </div>
@@ -572,7 +648,7 @@
     </div>
 </div>
 
-<!-- MODAL ESTRUCTURA DE PODER (ORGANIGRAMA ESQUEMÁTICO) -->
+<!-- MODAL ESTRUCTURA DE PODER -->
 <div id="powerModal" class="modal-overlay">
     <div class="modal-content modal-large">
         <h3>Estructura de Poder — La Camarilla de Chicago</h3>
@@ -639,7 +715,7 @@
                 <li><strong>Oculto / Desconocido:</strong> Información clasificada o fuera de radar (La tarjeta no se muestra a los jugadores).</li>
             </ul>
             <h4>Modo Narrador</h4>
-            <p>Pulsa la llave flotante e introduce la clave del Narrator para desbloquear la visión absoluta de todos los secretos y personajes ocultos.</p>
+            <p>Pulsa la llave flotante e introduce la clave del Narrator para desbloquear la visión absoluta de IDs, estatus y secretos ocultos.</p>
         </div>
         <div class="modal-buttons">
             <button class="modal-btn modal-btn-cancel" onclick="cerrarModalReadme()">Cerrar</button>
@@ -647,13 +723,27 @@
     </div>
 </div>
 
+<!-- MODAL POPUP PARA AMPLIAR IMAGEN -->
+<div id="imageModal" class="modal-overlay" onclick="cerrarModalImg()">
+    <div style="position:relative; max-width:90%; max-height:90%; display:flex; align-items:center; justify-content:center;" onclick="event.stopPropagation()">
+        <span onclick="cerrarModalImg()" style="position:absolute; top:-15px; right:-15px; background:#8b0000; color:#fff; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; border:1px solid #c92a2a; z-index:10001;">&times;</span>
+        <img id="imgModalAmpliada" src="" alt="Retrato Ampliado" style="max-width:100%; max-height:85vh; border-radius:8px; border:2px solid var(--accent-gold); box-shadow: 0 10px 25px rgba(0,0,0,0.8); object-fit: contain;">
+    </div>
+</div>
+
 <!-- BOTONES FLOTANTES -->
 <div class="floating-btn-container">
-    <a href="https://werkstoff747.github.io/vtm-consulta/chicago/" class="floating-action-btn" title="Ir al Censo de Chicago"><i class="fa-solid fa-house"></i></a>
+    <a href="https://werkstoff747.github.io/vtm-consulta" class="floating-action-btn" title="Ir al Menú Principal"><i class="fa-solid fa-house"></i></a>
     <button class="floating-action-btn" id="narratorToggleBtn" onclick="abrirModalNarrador()" title="Modo Narrador"><i class="fa-solid fa-key"></i></button>
     <button class="floating-action-btn theme-toggle-btn" title="Cambiar tema"><i class="fa-solid fa-moon"></i></button>
     <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()" title="Subir"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
+
+<!-- VARIABLES GLOBALES DE DATOS Y ESTADO -->
+<script>
+    let globalVampirosData = [];
+    let ordenarPorIdActivo = false;
+</script>
 
 <!-- IMPORTAR FIREBASE REALTIME DATABASE -->
 <script type="module">
@@ -690,6 +780,7 @@
                     btnNarrator.title = "Modo Narrador Activo";
                     btnNarrator.innerHTML = '<i class="fa-solid fa-unlock-keyhole"></i>';
                     cerrarModalNarrador();
+                    if(globalVampirosData.length > 0) renderVampiros(globalVampirosData);
                 } else { alert("Contraseña incorrecta. Acceso denegado."); }
             } else { alert("Error: No se encuentra 'password_narrador' en Firebase."); }
         } catch (error) { console.error("Error:", error); alert("Error de conexión con la base de datos."); }
@@ -697,8 +788,7 @@
 </script>
 
 <script>
-    // Enlace actualizado del Censo (gid=0)
-    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQw2W5HuXW6Yklx0VDalmc6hXNsWy6I1ulz-HKxmmx4xKKoDEM9ISoojfuzgwNtGPYTp-auqBjLysPR/pub?output=csv';
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShpjd_tcI1PIo1fdPGcBrsvkGw9NHvKv6YkDlMF7NaU_2F8W18YsqaTkGV8yPO2lPIZZVjKet_haOd/pub?gid=0&single=true&output=csv';
 
     const CLAN_ICONS = {
         "banu haqim": "./iconos/clanes/Banu_Haqim_Symbol.png",
@@ -714,7 +804,10 @@
         "toreador": "./iconos/clanes/Toreador_symbol.png",
         "tremere": "./iconos/clanes/Tremere_symbol.png",
         "tzimisce": "./iconos/clanes/Tzimisce_symbol.png",
-        "ventrue": "./iconos/clanes/Ventrue_symbol.png"
+        "ventrue": "./iconos/clanes/Ventrue_symbol.png",
+        "ravnos": "./iconos/clanes/Ravnos_symbol.png",
+        "sangre débil": "./iconos/clanes/Thinblood_symbol.png",
+        "salubri": "./iconos/clanes/Salubri_symbol.png"
     };
 
     const themeToggleBtns = document.querySelectorAll(".theme-toggle-btn");
@@ -740,6 +833,17 @@
                 btnNarrator.innerHTML = '<i class="fa-solid fa-unlock-keyhole"></i>';
             }
         }
+
+        const savedCN = localStorage.getItem('vtm-filter-cn');
+        const savedCC = localStorage.getItem('vtm-filter-cc');
+        if (savedCN !== null) document.getElementById('checkCN').checked = (savedCN === 'true');
+        if (savedCC !== null) document.getElementById('checkCC').checked = (savedCC === 'true');
+    }
+
+    function saveSourceFiltersAndApply() {
+        localStorage.setItem('vtm-filter-cn', document.getElementById('checkCN').checked);
+        localStorage.setItem('vtm-filter-cc', document.getElementById('checkCC').checked);
+        applyFilters();
     }
 
     themeToggleBtns.forEach(btn => {
@@ -754,11 +858,14 @@
         if (document.body.classList.contains('narrator-mode')) {
             document.body.classList.remove('narrator-mode');
             localStorage.setItem('vtm-narrator-mode', 'false');
+            ordenarPorIdActivo = false;
+            document.getElementById('sortIdBtn').classList.remove('active-sort');
             const btnNarrator = document.getElementById('narratorToggleBtn');
             btnNarrator.classList.remove('narrator-active');
             btnNarrator.title = "Modo Narrador";
             btnNarrator.innerHTML = '<i class="fa-solid fa-key"></i>';
             alert("Modo Narrador bloqueado.");
+            if(globalVampirosData.length > 0) renderVampiros(globalVampirosData);
             return;
         }
         document.getElementById('narratorModal').style.display = 'flex';
@@ -771,6 +878,31 @@
     function cerrarModalPoder() { document.getElementById('powerModal').style.display = 'none'; }
     function abrirModalReadme() { document.getElementById('readmeModal').style.display = 'flex'; }
     function cerrarModalReadme() { document.getElementById('readmeModal').style.display = 'none'; }
+
+    /* FUNCIONES PARA EL POPUP DE LA IMAGEN */
+    function abrirModalImg(urlImagen) {
+        const modal = document.getElementById('imageModal');
+        const imgAmpliada = document.getElementById('imgModalAmpliada');
+        imgAmpliada.src = urlImagen;
+        modal.style.display = 'flex';
+    }
+    function cerrarModalImg() {
+        const modal = document.getElementById('imageModal');
+        modal.style.display = 'none';
+    }
+
+    function toggleSortById() {
+        ordenarPorIdActivo = !ordenarPorIdActivo;
+        const btnSort = document.getElementById('sortIdBtn');
+        if (ordenarPorIdActivo) {
+            btnSort.classList.add('active-sort');
+        } else {
+            btnSort.classList.remove('active-sort');
+        }
+        if(globalVampirosData.length > 0) {
+            renderVampiros(globalVampirosData);
+        }
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
         const passInput = document.getElementById('narratorPasswordInput');
@@ -787,7 +919,8 @@
             download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
                 document.getElementById('loading').style.display = 'none';
-                renderVampiros(results.data);
+                globalVampirosData = results.data;
+                renderVampiros(globalVampirosData);
             }
         });
         window.addEventListener('scroll', () => {
@@ -802,16 +935,52 @@
         const esNarrator = document.body.classList.contains('narrator-mode');
 
         datos.sort((a, b) => {
-            let idA = parseInt(a["ID"]) || 0;
-            let idB = parseInt(b["ID"]) || 0;
-            return idA - idB;
+            if (esNarrator && ordenarPorIdActivo) {
+                let idA = parseInt(a["ID"]) || 0;
+                let idB = parseInt(b["ID"]) || 0;
+                return idA - idB;
+            }
+
+            const cargoA = (a["Cargo_Oficial"] || "").trim().toLowerCase();
+            const cargoB = (b["Cargo_Oficial"] || "").trim().toLowerCase();
+            
+            const tieneCargoA = cargoA !== "" && cargoA !== "-";
+            const tieneCargoB = cargoB !== "" && cargoB !== "-";
+
+            function obtenerPesoCargo(cargo) {
+                if (cargo.includes("príncipe") || cargo.includes("principe")) return 1;
+                if (cargo.includes("senescal")) return 2;
+                if (cargo.includes("sheriff")) return 3;
+                if (cargo.includes("primogénito") || cargo.includes("primogenito") || cargo.includes("primogenitura")) return 4;
+                return 5;
+            }
+
+            const pesoA = tieneCargoA ? obtenerPesoCargo(cargoA) : 6;
+            const pesoB = tieneCargoB ? obtenerPesoCargo(cargoB) : 6;
+
+            if (pesoA !== pesoB) {
+                return pesoA - pesoB;
+            }
+
+            const aliasA = (a["Alias"] || "").trim();
+            const nombreA = (a["Nombre del Personaje"] || "").trim();
+            const principalA = (aliasA !== "" ? aliasA : nombreA).toLowerCase();
+
+            const aliasB = (b["Alias"] || "").trim();
+            const nombreB = (b["Nombre del Personaje"] || "").trim();
+            const principalB = (aliasB !== "" ? aliasB : nombreB).toLowerCase();
+
+            return principalA.localeCompare(principalB);
         });
 
         datos.forEach(v => {
             const id = v["ID"] || "";
             const formattedId = id ? String(id).padStart(2, '0') : "00";
             
-            const nombre = v["Nombre del Personaje"] || "Desconocido";
+            const alias = (v["Alias"] || "").trim();
+            const nombreReal = (v["Nombre del Personaje"] || "").trim();
+            const nombrePrincipal = alias !== "" ? alias : nombreReal;
+            
             const clan = v["Clan"] || "Desconocido";
             const ocupacion = v["Profesion_Ocupacion"] || "";
             const ubicacion = v["Ubicación / Dominio habitual"] || "Desconocida";
@@ -819,22 +988,30 @@
             const sire = v["Sire / Creador"] || "";
             const menciones = v["Menciones"] || "";
             const secret = v["Secretos"] || "";
+            const consejosIntegracion = v["Consejos_integracion_Chicago_Nocturno"] || ""; 
             const cargoOficial = v["Cargo_Oficial"] || "";
+            const fuente = (v["FUENTE"] || v["Fuente"] || "").trim();
             const estatus = (v["Estatus"] || "Interactuado").trim();
             
             const cleanId = String(id).trim();
             const imagenPorId = cleanId ? `${cleanId}.jpg` : '';
-            const imagenPorNombre = nombre.replace(/["']/g, "").replace(/\s+/g, "_") + ".jpg";
+            const imagenPorNombre = nombreReal.replace(/["']/g, "").replace(/\s+/g, "_") + ".jpg";
             const imagenLimpia = v["Archivo de Imagen"] || imagenPorId || imagenPorNombre;
 
             const tieneCargoReal = cargoOficial && cargoOficial.trim() !== "" && cargoOficial.trim() !== "-";
 
-            if (!esNarrator && (estatus.toLowerCase().includes("oculto") || estatus.toLowerCase().includes("desconocido"))) {
-                return; 
+            if (!esNarrator) {
+                const estatusLower = estatus.toLowerCase();
+                const esOcultoODesconocido = estatusLower.includes("oculto") || estatusLower.includes("desconocido");
+                if (esOcultoODesconocido && !tieneCargoReal) {
+                    return; 
+                }
             }
 
+            const estatusEfectivo = (tieneCargoReal && (estatus.toLowerCase().includes("oculto") || estatus.toLowerCase().includes("desconocido"))) ? "Interactuado" : estatus;
+
             let estatusClase = "estatus-interactuado";
-            const estatusLower = estatus.toLowerCase();
+            const estatusLower = estatusEfectivo.toLowerCase();
             const esConocidoOidas = estatusLower.includes("oídas") || estatusLower.includes("oidas");
 
             if (esConocidoOidas) {
@@ -843,44 +1020,51 @@
                 estatusClase = "estatus-rumor";
             }
 
-            // REGLA: Si tiene cargo real o eres Narrator, la información (foto y ubicación) es pública
             const esPublicoPorCargo = tieneCargoReal || esNarrator;
             const ubicacionMostrada = (esConocidoOidas && !esPublicoPorCargo) ? "Dominio desconocido" : ubicacion;
             const imagenMostrada = (esConocidoOidas && !esPublicoPorCargo) ? "./retratos/silueta.jpg" : `./retratos/${imagenLimpia}`;
 
+            const esCloacaFuente = fuente.toLowerCase().includes("cloaca");
+            const textoFuente = fuente !== "" ? fuente : (esCloacaFuente ? "La Cloaca Carmesí" : "Chicago Nocturno");
+            const fuenteClase = esCloacaFuente ? "narrator-source-badge source-cloaca" : "narrator-source-badge";
+
             const card = document.createElement('div');
             card.className = 'card';
-            card.setAttribute('data-search', `${formattedId} ${nombre} ${clan} ${ocupacion} ${cargoOficial} ${ubicacion} ${faccion} ${sire} ${menciones} ${secret} ${estatus}`.toLowerCase());
+            card.setAttribute('data-search', `${formattedId} ${alias} ${nombreReal} ${clan} ${ocupacion} ${cargoOficial} ${ubicacion} ${faccion} ${sire} ${menciones} ${secret} ${consejosIntegracion} ${estatusEfectivo} ${fuente}`.toLowerCase());
             card.setAttribute('data-faccion', faccion.toLowerCase());
+            card.setAttribute('data-source', textoFuente.toLowerCase());
 
             const iconPath = CLAN_ICONS[clan.toLowerCase().trim()] || '';
 
             if (!esNarrator && estatusLower.includes("rumor")) {
                 card.innerHTML = `
                     <div class="id-badge">#${formattedId}</div>
-                    <div class="estatus-badge ${estatusClase}">${estatus}</div>
+                    <div class="estatus-badge ${estatusClase}">${estatusEfectivo}</div>
                     <div class="card-body-content" style="padding-top: 40px; text-align: center;">
-                        <div class="card-title" style="margin-bottom: 10px;">${nombre}</div>
+                        <div class="card-title" style="margin-bottom: 10px;">${nombrePrincipal}</div>
                         <p class="rumor-text" style="color: var(--text-muted); font-style: italic;">Se oye un rumor en las calles...</p>
                     </div>
                 `;
             } else {
                 card.innerHTML = `
                     <div class="id-badge">#${formattedId}</div>
-                    <div class="estatus-badge ${estatusClase}">${estatus}</div>
+                    <div class="estatus-badge ${estatusClase}">${estatusEfectivo}</div>
                     
                     <div class="card-img-container">
-                        <img src="${imagenMostrada}" alt="${nombre}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=500&q=80';">
+                        <img src="${imagenMostrada}" alt="${nombrePrincipal}" loading="lazy" onclick="abrirModalImg('${imagenMostrada}')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=500&q=80';">
+                        <div class="${fuenteClase}">${textoFuente}</div>
                     </div>
                     
                     <div class="card-body-content">
                         <div class="card-header-vamp">
                             ${iconPath ? `<img src="${iconPath}" class="clan-symbol" alt="${clan}">` : ''}
                             <div class="vamp-titles-box">
-                                <div class="card-title">${nombre}</div>
+                                <div class="card-title">${nombrePrincipal}</div>
                                 <div class="card-clan-tag">${clan}</div>
                             </div>
                         </div>
+                        
+                        ${alias !== "" ? `<div class="info-block narrator-only" style="background: rgba(139,0,0,0.12); border-color: rgba(139,0,0,0.4);"><span class="info-label"><i class="fa-solid fa-user-secret"></i> Identidad Real:</span><span class="info-value" style="color: var(--accent-gold);">${nombreReal}</span></div>` : ''}
                         
                         ${tieneCargoReal ? `<div class="info-block cargo-block"><span class="info-label"><i class="fa-solid fa-crown"></i> Cargo:</span><span class="info-value" style="color: var(--accent-gold); max-width: 100%;">${cargoOficial}</span></div>` : ''}
                         
@@ -890,8 +1074,16 @@
 
                         ${sire ? `<div class="info-block narrator-only"><span class="info-label">Sire / Creador:</span><span class="info-value">${sire}</span></div>` : ''}
                         ${menciones ? `<div class="info-block narrator-only"><span class="info-label">Menciones:</span><span class="info-value">${menciones}</span></div>` : ''}
-                        ${nombre ? `<div class="info-block narrator-only"><span class="info-label">Ficha / Perfil:</span><span class="info-value"><a href="ficha.html?id=${id}" style="color: var(--accent-gold); text-decoration: underline; font-weight: bold;"><i class="fa-solid fa-file-lines"></i> Ver Ficha</a></span></div>` : ''}
-                        ${secret ? `<div class="card-notes narrator-only">🦇 <strong>Secretos:</strong> ${secret}</div>` : ''}
+                        
+                        ${(() => {
+                            const esCloaca = fuente.toLowerCase().includes("cloaca");
+                            const archivoFicha = esCloaca ? "ficha_cloaca.html" : "ficha.html";
+                            const etiquetaFicha = esCloaca ? "Ver Ficha (Cloaca)" : "Ver Ficha";
+                            return nombrePrincipal ? `<div class="info-block narrator-only"><span class="info-label">Ficha / Perfil:</span><span class="info-value"><a href="${archivoFicha}?id=${id}" style="color: var(--accent-gold); text-decoration: underline; font-weight: bold;"><i class="fa-solid fa-file-lines"></i> ${etiquetaFicha}</a></span></div>` : '';
+                        })()}
+
+                        ${secret ? `<div class="card-notes narrator-only">🦇 <strong>Secretos:</strong><span>${secret}</span></div>` : ''}
+                        ${consejosIntegracion ? `<div class="card-notes narrator-only" style="background-color: rgba(197, 160, 89, 0.08); border-color: rgba(197, 160, 89, 0.3); color: var(--accent-gold);">💡 <strong>Consejos de Integración:</strong><span>${consejosIntegracion}</span></div>` : ''}
                     </div>
                 `;
             }
@@ -903,12 +1095,26 @@
     function applyFilters() {
         const query = document.getElementById('searchInput').value.toLowerCase().trim();
         const factionQuery = document.getElementById('factionFilter').value.toLowerCase().trim();
+        
+        const showCN = document.getElementById('checkCN').checked;
+        const showCC = document.getElementById('checkCC').checked;
+        const isNarrator = document.body.classList.contains('narrator-mode');
+
         let visibleCount = 0;
 
         document.querySelectorAll('.card').forEach(card => {
             const matchesSearch = !query || card.getAttribute('data-search').includes(query);
             const matchesFaction = !factionQuery || card.getAttribute('data-faccion').includes(factionQuery);
-            if (matchesSearch && matchesFaction) {
+            
+            let matchesSource = true;
+            if (isNarrator) {
+                const sourceText = card.getAttribute('data-source');
+                const isCloacaCard = sourceText.includes('cloaca');
+                if (isCloacaCard && !showCC) matchesSource = false;
+                if (!isCloacaCard && !showCN) matchesSource = false;
+            }
+
+            if (matchesSearch && matchesFaction && matchesSource) {
                 card.style.display = 'flex';
                 visibleCount++;
             } else {
